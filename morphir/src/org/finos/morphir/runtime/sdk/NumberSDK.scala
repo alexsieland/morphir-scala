@@ -12,6 +12,12 @@ object NumberSDK {
 
   // Convert
 
+  val fromInt = DynamicNativeFunction1("fromInt") {
+    (_: NativeContext) => (int: RT.Primitive.Int) =>
+      val result = Rational(int.value.toBigDecimal)
+      RTNumber(result)
+  }
+
   // Comparison
 
   // Arithmetic
