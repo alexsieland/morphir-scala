@@ -8,6 +8,8 @@ import org.finos.morphir.runtime.RTValue.Primitive.Number as RTNumber
 import org.finos.morphir.runtime.RTValue.Primitive.BigDecimal as RTDecimal
 import spire.math.Rational
 
+import java.math.MathContext
+
 object NumberSDK {
 
   // Convert
@@ -109,8 +111,26 @@ object NumberSDK {
 
   // Convert To
 
-  // Misc
+  val toFractionalString = DynamicNativeFunction1("toFractionalString") {
+    (_: NativeContext) => (num: RTNumber) =>
+      val result = num.value.toString
+      RT.Primitive.String(result)
+  }
 
+  val toDecimal = DynamicNativeFunction1("toDecimal") {
+    (_: NativeContext) => (num: RTNumber) =>
+      val result = tryOption(num.value.toBigDecimal(MathContext.UNLIMITED)).map(RTDecimal(_))
+      MaybeSDK.optionToMaybe(result)
+  }
+
+  val coerceToDecimal = DynamicNativeFunction2("coerceToDecimal") {
+    (_: NativeContext) => (defaultDec: RTDecimal, num: RTNumber) =>
+      val result = tryOption(num.value.toBigDecimal(MathContext.UNLIMITED)).map(RTDecimal(_))
+      result.getOrElse(defaultDec)
+  }
+
+  // Misc
+  
   // Constants
 
   val zero: SDKValue = SDKValue.SDKNativeValue(RTNumber(Rational.zero))
