@@ -2,19 +2,19 @@ package org.finos.morphir.runtime
 
 import org.finos.morphir.ir.Type.Type
 import org.finos.morphir.ir.Value.Value.{List as ListValue, Unit as UnitValue, *}
-import org.finos.morphir.ir.Value.{Pattern, Value, TypedValue}
+import org.finos.morphir.ir.Value.{Pattern, TypedValue, Value}
 import org.finos.morphir.ir.{Module, Type}
 import org.finos.morphir.naming.*
 import Name.toTitleCase
 import org.finos.morphir.MInt
 import org.finos.morphir.datamodel.Concept.Result
 import org.finos.morphir.runtime.internal.{NativeFunctionSignature, NativeFunctionSignatureAdv}
-import org.finos.morphir.runtime.MorphirRuntimeError.{IllegalValue, FailedCoercion}
+import org.finos.morphir.runtime.MorphirRuntimeError.{EvaluationError, FailedCoercion, IllegalValue}
 import org.finos.morphir.runtime.internal.CallStackFrame
 import org.finos.morphir.ir.Type.UType
 import org.finos.morphir.util.PrintRTValue
 
-import scala.collection.immutable.{List as ScalaList, Set as ScalaSet, Map as ScalaMap}
+import scala.collection.immutable.{List as ScalaList, Map as ScalaMap, Set as ScalaSet}
 import scala.collection.mutable
 
 // TODO Integrate errors into reporting format
@@ -349,6 +349,10 @@ object RTValue {
     override def succinct(depth: Int) = "Unit"
   }
 
+  case class DivisionByZero() extends RTValue {
+    override def message = "DivisionByZero"
+  }
+
   sealed trait Primitive[T] extends ValueResult[T] {
     def value: T
     def isNumeric                     = false
@@ -431,8 +435,8 @@ object RTValue {
       lazy val fractionalHelper = Some(implicitly[scala.Fractional[scala.BigDecimal]])
       lazy val integralHelper   = None
     }
-    case class Number(value: spire.math.Rational) extends Ordered[spire.math.Rational] {
-      val numericType           = Numeric.Type.BigDecimal
+    case class Number(value: spire.math.Rational) extends Numeric[spire.math.Rational] {
+      val numericType           = Numeric.Type.Number
     }
 
     object DecimalBounded {
