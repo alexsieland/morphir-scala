@@ -390,6 +390,13 @@ object RTValue {
               case _                   => throw IllegalValue(s"The value $value is not a BigDecimal")
             }
         }
+        case object Number extends Numeric.Type[spire.math.Rational] {
+          override def makeOrFail(value: Any): Numeric[spire.math.Rational] =
+            value match {
+              case v: spire.math.Rational => Primitive.Number(v)
+              case _                   => throw IllegalValue(s"The value $value is not a Rational")
+            }
+        }
       }
     }
 
@@ -423,6 +430,9 @@ object RTValue {
       lazy val numericHelper    = implicitly[scala.Numeric[scala.BigDecimal]]
       lazy val fractionalHelper = Some(implicitly[scala.Fractional[scala.BigDecimal]])
       lazy val integralHelper   = None
+    }
+    case class Number(value: spire.math.Rational) extends Ordered[spire.math.Rational] {
+      val numericType           = Numeric.Type.BigDecimal
     }
 
     object DecimalBounded {
