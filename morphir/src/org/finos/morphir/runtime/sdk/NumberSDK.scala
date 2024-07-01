@@ -47,6 +47,24 @@ object NumberSDK {
       ResultSDK.eitherToResult(result)
   }
 
+  val abs = DynamicNativeFunction1("abs") {
+    (_: NativeContext) => (num: RTNumber) =>
+      val result = num.value.abs
+      RTNumber(result)
+  }
+
+  val negate = DynamicNativeFunction1("negate") {
+    (_: NativeContext) => (num: RTNumber) =>
+      val result = num.value.unary_-
+      RTNumber(result)
+  }
+
+  val reciprocal = DynamicNativeFunction1("reciprocal") {
+    (_: NativeContext) => (num: RTNumber) =>
+      val result = num.value.reciprocal
+      RTNumber(result)
+  }
+
   // Convert To
 
   // Misc
