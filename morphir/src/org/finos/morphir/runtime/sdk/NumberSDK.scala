@@ -20,6 +20,42 @@ object NumberSDK {
 
   // Comparison
 
+  val equal = DynamicNativeFunction2("equal") {
+    (_: NativeContext) => (a: RTNumber, b: RTNumber) =>
+      val result = a.value.equals(b.value)
+      RT.Primitive.Boolean(result)
+  }
+
+  val notEqual = DynamicNativeFunction2("notEqual") {
+    (_: NativeContext) => (a: RTNumber, b: RTNumber) =>
+      val result = !a.value.equals(b.value)
+      RT.Primitive.Boolean(result)
+  }
+
+  val lessThan = DynamicNativeFunction2("lessThan") {
+    (_: NativeContext) => (a: RTNumber, b: RTNumber) =>
+      val result = a.value < b.value
+      RT.Primitive.Boolean(result)
+  }
+
+  val lessThanOrEqual = DynamicNativeFunction2("lessThanOrEqual") {
+    (_: NativeContext) => (a: RTNumber, b: RTNumber) =>
+      val result = a.value <= b.value
+      RT.Primitive.Boolean(result)
+  }
+
+  val greaterThan = DynamicNativeFunction2("greaterThan") {
+    (_: NativeContext) => (a: RTNumber, b: RTNumber) =>
+      val result = a.value < b.value
+      RT.Primitive.Boolean(result)
+  }
+
+  val greaterThanOrEqual = DynamicNativeFunction2("greaterThanOrEqual") {
+    (_: NativeContext) => (a: RTNumber, b: RTNumber) =>
+      val result = a.value >= b.value
+      RT.Primitive.Boolean(result)
+  }
+  
   // Arithmetic
 
   val add = DynamicNativeFunction2("add") {
