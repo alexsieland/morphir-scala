@@ -56,6 +56,7 @@ object Data {
   case class Int16(value: scala.Short)        extends Basic[Short]            { val shape: Concept = Concept.Int16   }
   case class Int32(value: scala.Int)          extends Basic[Int]              { val shape: Concept = Concept.Int32   }
   case class Int64(value: scala.Long)         extends Basic[Long]             { val shape: Concept = Concept.Int64   }
+  case class Number(value: spire.math.Rational) extends Basic[spire.math.Rational] { val shape: Concept = Concept.Number }
   case class String(value: java.lang.String)  extends Basic[java.lang.String] { val shape: Concept = Concept.String  }
   case class LocalDate(value: java.time.LocalDate) extends Basic[java.time.LocalDate] {
     val shape: Concept = Concept.LocalDate
@@ -78,6 +79,7 @@ object Data {
   object Integer   {}
   object Int16     {}
   object Int32     {}
+  object Number    {}
   object String    {}
   object LocalDate {}
   object Month     {}

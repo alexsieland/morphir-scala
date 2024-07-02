@@ -69,6 +69,8 @@ object Concept {
     type Int32 = Concept.Int32.type
     val Int32 = Concept.Int32
     type String = Concept.String.type
+    val Number = Concept.Number
+    type Number = Concept.Number.type
     val String = Concept.String
     type LocalDate = Concept.LocalDate.type
     val LocalDate = Concept.LocalDate
@@ -97,6 +99,7 @@ object Concept {
   case object Int16     extends Basic[Short]
   case object Int32     extends Basic[Int]
   case object Int64     extends Basic[Long]
+  case object Number    extends Basic[spire.math.Rational]
   case object String    extends Basic[java.lang.String]
   case object LocalDate extends Basic[java.time.LocalDate]
   case object Month     extends Basic[java.time.Month]
