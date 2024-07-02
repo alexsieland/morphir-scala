@@ -3,7 +3,7 @@ package org.finos.morphir.runtime.sdk
 import org.finos.morphir.runtime.ErrorUtils.tryOption
 import org.finos.morphir.runtime.RTValue.DivisionByZero
 import org.finos.morphir.runtime.internal.{DynamicNativeFunction1, DynamicNativeFunction2, DynamicNativeFunction3, NativeContext}
-import org.finos.morphir.runtime.{SDKValue, RTValue as RT}
+import org.finos.morphir.runtime.{RTValue, SDKValue, RTValue as RT}
 import org.finos.morphir.runtime.RTValue.Primitive.Number as RTNumber
 import org.finos.morphir.runtime.RTValue.Primitive.BigDecimal as RTDecimal
 import spire.math.Rational
@@ -83,7 +83,7 @@ object NumberSDK {
     (_: NativeContext) => (a: RTNumber, b: RTNumber) =>
       val result = b.value match {
         case Rational.zero =>
-          Left(DivisionByZero)
+          Left(DivisionByZero())
         case divisor =>
           val result = a.value / divisor
           Right(RTNumber(result))
@@ -136,8 +136,13 @@ object NumberSDK {
           val numerator = num.value.numerator
           val denominator = num.value.denominator
           val (gcd, _) = numerator.factor.gcd(denominator.factor).head
-          val result = Rational(numerator / gcd, denominator / gcd)
-          RTNumber(result)
+          gcd match {
+            case 1 => 
+              MaybeSDK.optionToMaybe(None)
+            case d => 
+              val result = Rational(numerator / d, denominator / d)
+              MaybeSDK.optionToMaybe(Some(RTNumber(result)))
+          }
   }
 
   val isSimplified = DynamicNativeFunction1("isSimplified") {
