@@ -220,7 +220,7 @@ object NativeSDK {
           NativeFunctionAdapter.Fun1(NumberSDK.reciprocal),
           NativeFunctionAdapter.Fun1(NumberSDK.toFractionalString),
           NativeFunctionAdapter.Fun1(NumberSDK.toDecimal),
-          NativeFunctionAdapter.Fun1(NumberSDK.coerceToDecimal),
+          NativeFunctionAdapter.Fun2(NumberSDK.coerceToDecimal),
           NativeFunctionAdapter.Fun1(NumberSDK.simplify),
           NativeFunctionAdapter.Fun1(NumberSDK.isSimplified)
         )

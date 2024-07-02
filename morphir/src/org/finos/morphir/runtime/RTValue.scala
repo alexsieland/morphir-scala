@@ -135,6 +135,19 @@ object RTValue {
         )
     }
 
+  def coerceNumber(arg: RTValue) =
+    arg match {
+      case v: Primitive.Number => v
+      case _: Primitive[_] =>
+        throw new FailedCoercion(
+          s"Could not unwrap the primitive `${arg}` into a Number value because it was not a Primitive.Number"
+        )
+      case _ =>
+        throw FailedCoercion(
+          s"Cannot unwrap the value `${arg}` into a primitive Number. It is not a primitive!"
+        )
+    }
+
   def coerceLong(arg: RTValue) =
     arg match {
       case v: Primitive.Int => v
@@ -350,7 +363,7 @@ object RTValue {
   }
 
   case class DivisionByZero() extends RTValue {
-    override def message = "DivisionByZero"
+    override def succinct(depth: Int) = "DivisionByZero"
   }
 
   sealed trait Primitive[T] extends ValueResult[T] {
@@ -435,8 +448,12 @@ object RTValue {
       lazy val fractionalHelper = Some(implicitly[scala.Fractional[scala.BigDecimal]])
       lazy val integralHelper   = None
     }
+    
     case class Number(value: spire.math.Rational) extends Numeric[spire.math.Rational] {
       val numericType           = Numeric.Type.Number
+      lazy val numericHelper    = implicitly[scala.Numeric[spire.math.Rational]]
+      lazy val fractionalHelper = Some(implicitly[scala.Fractional[spire.math.Rational]])
+      lazy val integralHelper   = None
     }
 
     object DecimalBounded {

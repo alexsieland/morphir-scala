@@ -6,7 +6,7 @@ import org.finos.morphir.runtime.internal.{DynamicNativeFunction1, DynamicNative
 import org.finos.morphir.runtime.{RTValue, SDKValue, RTValue as RT}
 import org.finos.morphir.runtime.RTValue.Primitive.Number as RTNumber
 import org.finos.morphir.runtime.RTValue.Primitive.BigDecimal as RTDecimal
-import spire.math.Rational
+import spire.math.{Rational, SafeLong}
 
 import java.math.MathContext
 
@@ -137,7 +137,7 @@ object NumberSDK {
           val denominator = num.value.denominator
           val (gcd, _) = numerator.factor.gcd(denominator.factor).head
           gcd match {
-            case 1 => 
+            case SafeLong.one => 
               MaybeSDK.optionToMaybe(None)
             case d => 
               val result = Rational(numerator / d, denominator / d)
