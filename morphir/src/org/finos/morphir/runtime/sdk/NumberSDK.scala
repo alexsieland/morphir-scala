@@ -16,7 +16,7 @@ object NumberSDK {
 
   val fromInt = DynamicNativeFunction1("fromInt") {
     (_: NativeContext) => (int: RT.Primitive.Int) =>
-      val result = Rational(int.value.toBigDecimal)
+      val result = Rational(int.value.value)
       RTNumber(result)
   }
 
@@ -99,7 +99,7 @@ object NumberSDK {
 
   val negate = DynamicNativeFunction1("negate") {
     (_: NativeContext) => (num: RTNumber) =>
-      val result = num.value.unary_-
+      val result = -num.value
       RTNumber(result)
   }
 
@@ -130,6 +130,24 @@ object NumberSDK {
   }
 
   // Misc
+
+  val simplify = DynamicNativeFunction1("simplify") {
+    (_: NativeContext) => (num: RTNumber) =>
+          val numerator = num.value.numerator
+          val denominator = num.value.denominator
+          val (gcd, _) = numerator.factor.gcd(denominator.factor).head
+          val result = Rational(numerator / gcd, denominator / gcd)
+          RTNumber(result)
+  }
+
+  val isSimplified = DynamicNativeFunction1("isSimplified") {
+    (_: NativeContext) => (num: RTNumber) =>
+      val nFactors = num.value.numerator.factor
+      val dFactors = num.value.denominator.factor
+      val (gcd, _) = nFactors.gcd(dFactors).head
+      val result = gcd.isOne
+      RT.Primitive.Boolean(result)
+  }
   
   // Constants
 

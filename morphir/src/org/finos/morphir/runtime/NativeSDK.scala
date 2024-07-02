@@ -202,6 +202,30 @@ object NativeSDK {
         )
       }
 
+      case object Number extends SdkModuleDescriptor("Number") {
+        val functions: List[NativeFunctionAdapter] = scala.List(
+          NativeFunctionAdapter.Fun1(NumberSDK.fromInt),
+          NativeFunctionAdapter.Fun2(NumberSDK.equal),
+          NativeFunctionAdapter.Fun2(NumberSDK.notEqual),
+          NativeFunctionAdapter.Fun2(NumberSDK.greaterThan),
+          NativeFunctionAdapter.Fun2(NumberSDK.greaterThanOrEqual),
+          NativeFunctionAdapter.Fun2(NumberSDK.lessThan),
+          NativeFunctionAdapter.Fun2(NumberSDK.lessThanOrEqual),
+          NativeFunctionAdapter.Fun2(NumberSDK.add),
+          NativeFunctionAdapter.Fun2(NumberSDK.subtract),
+          NativeFunctionAdapter.Fun2(NumberSDK.multiply),
+          NativeFunctionAdapter.Fun2(NumberSDK.divide),
+          NativeFunctionAdapter.Fun1(NumberSDK.abs),
+          NativeFunctionAdapter.Fun1(NumberSDK.negate),
+          NativeFunctionAdapter.Fun1(NumberSDK.reciprocal),
+          NativeFunctionAdapter.Fun1(NumberSDK.toFractionalString),
+          NativeFunctionAdapter.Fun1(NumberSDK.toDecimal),
+          NativeFunctionAdapter.Fun1(NumberSDK.coerceToDecimal),
+          NativeFunctionAdapter.Fun1(NumberSDK.simplify),
+          NativeFunctionAdapter.Fun1(NumberSDK.isSimplified)
+        )
+      }
+
       case object Result extends SdkModuleDescriptor(moduleName = "Result") {
         val functions: List[NativeFunctionAdapter] = scala.List(
           NativeFunctionAdapter.Fun2(ResultSDK.map),
@@ -304,6 +328,7 @@ object NativeSDK {
       LocalDate,
       LocalTime,
       Maybe,
+      Number,
       Result,
       Set,
       String
