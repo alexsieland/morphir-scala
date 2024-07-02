@@ -9,8 +9,8 @@ import Morphir.SDK.Number as Number exposing (..)
 value = 2
 expected = 2/1
 -}
-numberFromIntTest : Int -> Number
-numberFromIntTest int =
+numberFromInt : Int -> Number
+numberFromInt int =
     Number.fromInt
         int
 
