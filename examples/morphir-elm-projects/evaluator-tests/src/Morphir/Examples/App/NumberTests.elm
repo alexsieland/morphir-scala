@@ -108,8 +108,8 @@ a = 1/3
 b = 1/2
 expected = 1/6
 -}
-numberSubract : Number -> Number -> Number
-numberSubract a b =
+numberSubtract : Number -> Number -> Number
+numberSubtract a b =
     Number.subtract
         a
         b
@@ -120,8 +120,8 @@ a = 2
 b = 1/2
 expected = 1
 -}
-numberSubract : Number -> Number -> Number
-numberSubract a b =
+numberMultiply : Number -> Number -> Number
+numberMultiply a b =
     Number.multiply
         a
         b
@@ -132,8 +132,8 @@ a = 1
 b = 1/2
 expected = 2
 -}
-numberSubract : Number -> Number -> Number
-numberSubract a b =
+numberDivide : Number -> Number -> Number
+numberDivide a b =
     Number.divide
         a
         b
@@ -195,8 +195,8 @@ numberToDecimal num =
 value = 1/2
 expected = 0.5
 -}
-numberToDecimal : Decimal -> Number -> Decimal
-numberToDecimal defaultDec num =
+numberCoerceToDecimal : Decimal -> Number -> Decimal
+numberCoerceToDecimal defaultDec num =
     Number.coerceToDecimal
         defaultDec
         num
