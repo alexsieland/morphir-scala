@@ -16,6 +16,10 @@ import org.finos.morphir.util.PrintRTValue
 
 import scala.collection.immutable.{List as ScalaList, Map as ScalaMap, Set as ScalaSet}
 import scala.collection.mutable
+import RationalImplicits.*
+
+import java.math.MathContext
+
 
 // TODO Integrate errors into reporting format
 // Represents a Morphir-Evaluator result. Typed on TypedValue
@@ -462,6 +466,7 @@ object RTValue {
           case Primitive.Float(v)      => Some(scala.BigDecimal(v.toDouble))
           case Primitive.Int(v)        => Some(v.toBigDecimal)
           case Primitive.BigDecimal(v) => Some(v)
+          case Primitive.Number(v)     => Some(v.toBigDecimal(MathContext.UNLIMITED))
         }
     }
 
