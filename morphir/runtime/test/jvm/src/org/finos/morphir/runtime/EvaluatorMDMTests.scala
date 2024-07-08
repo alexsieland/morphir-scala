@@ -1343,45 +1343,97 @@ object EvaluatorMDMTests extends MorphirBaseSpec {
           testEval("fromInt")("numberTests", "numberFromInt", 634)(Data.Number(Rational(634)))
         ),
         suite("comparison")(
-          testEval("equal where true")("numberTests", "numberEqual", Rational(1,2), Rational(1,2))(Data.Boolean(true)),
-          testEval("equal where false")("numberTests", "numberEqual", Rational(1,2), Rational(3,2))(Data.Boolean(false)),
-          testEval("notEqual where true")("numberTests", "numberEqual", Rational(1,2), Rational(3,2))(Data.Boolean(true)),
-          testEval("notEqual where false")("numberTests", "numberEqual", Rational(1,2), Rational(1,2))(Data.Boolean(false)),
-          testEval("lessThan where less")("numberTests", "numberEqual", Rational(1,2), Rational(3,2))(Data.Boolean(true)),
-          testEval("lessThan where greater")("numberTests", "numberEqual", Rational(3,2), Rational(1,2))(Data.Boolean(false)),
-          testEval("lessThan where equal")("numberTests", "numberEqual", Rational(1,2), Rational(1,2))(Data.Boolean(false)),
-          testEval("lessThanOrEqual where less")("numberTests", "numberEqual", Rational(1,2), Rational(3,2))(Data.Boolean(true)),
-          testEval("lessThanOrEqual where greater")("numberTests", "numberEqual", Rational(3,2), Rational(1,2))(Data.Boolean(false)),
-          testEval("lessThanOrEqual where equal")("numberTests", "numberEqual", Rational(1,2), Rational(1,2))(Data.Boolean(true)),
-          testEval("greaterThan where less")("numberTests", "numberEqual", Rational(1,2), Rational(3,2))(Data.Boolean(false)),
-          testEval("greaterThan where greater")("numberTests", "numberEqual", Rational(3,2), Rational(1,2))(Data.Boolean(true)),
-          testEval("greaterThan where equal")("numberTests", "numberEqual", Rational(1,2), Rational(1,2))(Data.Boolean(false)),
-          testEval("greaterThanOrEqual where less")("numberTests", "numberEqual", Rational(1,2), Rational(3,2))(Data.Boolean(false)),
-          testEval("greaterThanOrEqual where greater")("numberTests", "numberEqual", Rational(3,2), Rational(1,2))(Data.Boolean(true)),
-          testEval("greaterThanOrEqual where equal")("numberTests", "numberEqual", Rational(1,2), Rational(1,2))(Data.Boolean(true))
+          testEval("equal where true")("numberTests", "numberEqual", Rational(1, 2), Rational(1, 2))(
+            Data.Boolean(true)
+          ),
+          testEval("equal where false")("numberTests", "numberEqual", Rational(1, 2), Rational(3, 2))(
+            Data.Boolean(false)
+          ),
+          testEval("notEqual where true")("numberTests", "numberEqual", Rational(1, 2), Rational(3, 2))(
+            Data.Boolean(true)
+          ),
+          testEval("notEqual where false")("numberTests", "numberEqual", Rational(1, 2), Rational(1, 2))(
+            Data.Boolean(false)
+          ),
+          testEval("lessThan where less")("numberTests", "numberEqual", Rational(1, 2), Rational(3, 2))(
+            Data.Boolean(true)
+          ),
+          testEval("lessThan where greater")("numberTests", "numberEqual", Rational(3, 2), Rational(1, 2))(
+            Data.Boolean(false)
+          ),
+          testEval("lessThan where equal")("numberTests", "numberEqual", Rational(1, 2), Rational(1, 2))(
+            Data.Boolean(false)
+          ),
+          testEval("lessThanOrEqual where less")("numberTests", "numberEqual", Rational(1, 2), Rational(3, 2))(
+            Data.Boolean(true)
+          ),
+          testEval("lessThanOrEqual where greater")("numberTests", "numberEqual", Rational(3, 2), Rational(1, 2))(
+            Data.Boolean(false)
+          ),
+          testEval("lessThanOrEqual where equal")("numberTests", "numberEqual", Rational(1, 2), Rational(1, 2))(
+            Data.Boolean(true)
+          ),
+          testEval("greaterThan where less")("numberTests", "numberEqual", Rational(1, 2), Rational(3, 2))(
+            Data.Boolean(false)
+          ),
+          testEval("greaterThan where greater")("numberTests", "numberEqual", Rational(3, 2), Rational(1, 2))(
+            Data.Boolean(true)
+          ),
+          testEval("greaterThan where equal")("numberTests", "numberEqual", Rational(1, 2), Rational(1, 2))(
+            Data.Boolean(false)
+          ),
+          testEval("greaterThanOrEqual where less")("numberTests", "numberEqual", Rational(1, 2), Rational(3, 2))(
+            Data.Boolean(false)
+          ),
+          testEval("greaterThanOrEqual where greater")("numberTests", "numberEqual", Rational(3, 2), Rational(1, 2))(
+            Data.Boolean(true)
+          ),
+          testEval("greaterThanOrEqual where equal")("numberTests", "numberEqual", Rational(1, 2), Rational(1, 2))(
+            Data.Boolean(true)
+          )
         ),
         suite("arithmetic")(
-          testEval("add")("numberTests", "numberAdd", Rational(1,3), Rational(1,2))(Data.Number(Rational(5,6))),
-          testEval("subtract")("numberTests", "numberSubtract", Rational(1,3), Rational(1,2))(Data.Number(Rational(1,6))),
-          testEval("multiply")("numberTests", "numberMultiply", Rational(2), Rational(1,2))(Data.Number(Rational(1))),
-          testEval("divide")("numberTests", "numberDivide", Rational(1), Rational(1,2))(Data.Result.Ok(Data.Number(Rational(2)))),
-          testEval("divide by zero")("numberTests", "numberDivide", Rational(1), Rational(1,2))(Data.Result.Err(Concept.Number)),
+          testEval("add")("numberTests", "numberAdd", Rational(1, 3), Rational(1, 2))(Data.Number(Rational(5, 6))),
+          testEval("subtract")("numberTests", "numberSubtract", Rational(1, 3), Rational(1, 2))(Data.Number(Rational(
+            1,
+            6
+          ))),
+          testEval("multiply")("numberTests", "numberMultiply", Rational(2), Rational(1, 2))(Data.Number(Rational(1))),
+          testEval("divide")("numberTests", "numberDivide", Rational(1), Rational(1, 2))(
+            Data.Result.Ok(Data.Number(Rational(2)))
+          ),
+          testEval("divide by zero")("numberTests", "numberDivide", Rational(1), Rational(1, 2))(
+            Data.Result.Err(Concept.Number)
+          ),
           testEval("abs positive value")("numberTests", "numberAbs", Rational(1))(Data.Number(Rational(1))),
           testEval("abs negative value")("numberTests", "numberAbs", Rational(-1))(Data.Number(Rational(1))),
           testEval("negate")("numberTests", "numberNegate", Rational(1))(Data.Number(Rational(-1))),
-          testEval("reciprocal")("numberTests", "numberReciprocal", Rational(1,2))(Data.Number(Rational(2)))
+          testEval("reciprocal")("numberTests", "numberReciprocal", Rational(1, 2))(Data.Number(Rational(2)))
         ),
         suite("convertTo")(
-          testEval("to fractional string")("numberTests", "numberToFractionalString", Rational(1,2))(Data.String("1/2")),
-          testEval("to decimal")("numberTests", "numberToDecimal", Rational(1,2))(Data.Optional.Some(Data.Decimal(0.5))),
-          testEval("coerce to decimal")("numberTests", "numberCoerceToDecimal", BitDecimal(1), Rational(1,2))(Data.Decimal(0.5))
+          testEval("to fractional string")("numberTests", "numberToFractionalString", Rational(1, 2))(
+            Data.String("1/2")
+          ),
+          testEval("to decimal")("numberTests", "numberToDecimal", Rational(1, 2))(
+            Data.Optional.Some(Data.Decimal(0.5))
+          ),
+          testEval("coerce to decimal")("numberTests", "numberCoerceToDecimal", BitDecimal(1), Rational(1, 2))(
+            Data.Decimal(0.5)
+          )
         ),
         suite("misc")(
-          testEval("simplify where is simplified")("numberTests", "numberSimplify", Rational(1,2))(Data.Optional.None(Data.Number)),
-          testEval("simplify where not simplified")("numberTests", "numberSimplify", Rational(2,4))(Data.Optional.Some(Data.Number(Rational(1,2)))),
-          testEval("simplify where is simplified")("numberTests", "numberIsSimplified", Rational(1,2))(Data.Boolean(true)),
-          testEval("simplify where not simplified")("numberTests", "numberIsSimplified", Rational(2,4))(Data.Boolean(false))
-
+          testEval("simplify where is simplified")("numberTests", "numberSimplify", Rational(1, 2))(
+            Data.Optional.None(Data.Number)
+          ),
+          testEval("simplify where not simplified")("numberTests", "numberSimplify", Rational(2, 4))(
+            Data.Optional.Some(Data.Number(Rational(1, 2)))
+          ),
+          testEval("simplify where is simplified")("numberTests", "numberIsSimplified", Rational(1, 2))(
+            Data.Boolean(true)
+          ),
+          testEval("simplify where not simplified")("numberTests", "numberIsSimplified", Rational(2, 4))(
+            Data.Boolean(false)
+          )
         ),
         suite("constants")(
           testEval("zero")("numberTests", "numberZero")(Data.Number(Rational.zero)),
