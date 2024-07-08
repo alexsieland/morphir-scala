@@ -75,6 +75,10 @@ trait MorphirJsonEncodingSupportV2 extends JsonEncodingHelpers {
     Json.Arr(Json.Str("FloatLiteral"), Json.Num(literal.value))
   }
 
+  implicit def literalNumberEncoder: JsonEncoder[NumberLiteral] = Json.encoder.contramap[NumberLiteral] { literal =>
+    Json.Arr(Json.Str("NumberLiteral"), Json.Str(literal.value.toString))
+  }
+
   implicit def literalStringEncoder: JsonEncoder[StringLiteral] = Json.encoder.contramap[StringLiteral] { literal =>
     Json.Arr(Json.Str("StringLiteral"), Json.Str(literal.value))
   }
@@ -91,6 +95,7 @@ trait MorphirJsonEncodingSupportV2 extends JsonEncodingHelpers {
         case literalChar: CharLiteral       => literalCharEncoder.unsafeEncode(literalChar, indent, out)
         case literalDecimal: DecimalLiteral => literalDecimalEncoder.unsafeEncode(literalDecimal, indent, out)
         case literalFloat: FloatLiteral     => literalFloatEncoder.unsafeEncode(literalFloat, indent, out)
+        case literalNumber: NumberLiteral   => literalNumberEncoder.unsafeEncode(literalNumber, indent, out)
         case literalString: StringLiteral   => literalStringEncoder.unsafeEncode(literalString, indent, out)
         case literalWholeNumber: WholeNumberLiteral =>
           literalWholeNumberEncoder.unsafeEncode(literalWholeNumber, indent, out)

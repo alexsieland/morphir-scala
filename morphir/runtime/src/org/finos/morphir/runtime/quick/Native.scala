@@ -378,6 +378,8 @@ object Native {
         case float: Primitive.Float      => float
         case Primitive.Int(value)        => wrap(value.toDouble)
         case Primitive.BigDecimal(value) => wrap(value.toDouble)
+        case Primitive.Number(value)     => wrap(value.toDouble)
+        
       }
   }
   val log: SDKValue = SDKValue.SDKNativeFunction.fun2 {

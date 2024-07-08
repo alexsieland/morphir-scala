@@ -9,7 +9,8 @@ import org.finos.morphir.ir.Literal.Literal.{
   DecimalLiteral,
   FloatLiteral,
   StringLiteral,
-  WholeNumberLiteral
+  WholeNumberLiteral,
+  NumberLiteral
 }
 import org.finos.morphir.ir.{Value => V}
 import org.finos.morphir.ir.Value.Pattern.*
@@ -25,6 +26,7 @@ object Helpers {
     case BoolLiteral(value)        => RTValue.Primitive.Boolean(value)
     case WholeNumberLiteral(value) => RTValue.Primitive.Int(MInt.fromLong(value))
     case DecimalLiteral(value)     => RTValue.Primitive.BigDecimal(value)
+    case NumberLiteral(value)      => RTValue.Primitive.Number(value)
   }
 
   def matchPatternCase(

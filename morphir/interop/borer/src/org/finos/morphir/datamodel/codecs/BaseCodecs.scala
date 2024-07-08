@@ -1,9 +1,11 @@
 package org.finos.morphir.datamodel.codecs
 
-import io.bullet.borer._
-import io.bullet.borer.derivation.MapBasedCodecs._
-import org.finos.morphir._
-import java.time._
+import io.bullet.borer.*
+import io.bullet.borer.derivation.MapBasedCodecs.*
+import org.finos.morphir.*
+import spire.math.Rational
+
+import java.time.*
 
 object BaseCodecs {
   implicit val localTimeEncoder: Encoder[LocalTime] = Encoder { (writer, time: LocalTime) =>
@@ -36,5 +38,13 @@ object BaseCodecs {
 
   implicit val dayOfWeekDecoder: Decoder[DayOfWeek] = Decoder { reader =>
     DayOfWeek.of(reader.readInt())
+  }
+
+  implicit val rationalEndcoder: Encoder[Rational] = Encoder { (writer, r: Rational) =>
+    writer.writeString(r.toString)
+  }
+
+  implicit val rationalDecoder: Decoder[Rational] = Decoder { reader =>
+    Rational.apply(reader.readString())
   }
 }
