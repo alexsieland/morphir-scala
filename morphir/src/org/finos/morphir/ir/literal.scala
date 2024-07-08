@@ -2,6 +2,7 @@ package org.finos.morphir
 package ir
 
 import java.math.{BigDecimal => BigDec}
+import spire.math.Rational
 import scala.annotation.unused
 import Type.UType
 import Value.{RawValue, TypedValue, Value, literal}
@@ -25,6 +26,7 @@ object Literal { module =>
   def floatLiteral(value: Double): Literal     = Literal.FloatLiteral(value)
   def floatLiteral(value: Float): Literal      = Literal.FloatLiteral(value.toDouble)
   def intLiteral(value: Int): Literal          = Literal.WholeNumberLiteral(value.toLong)
+  def numberLiteral(value: Rational): Literal  = Literal.NumberLiteral(value)
   def stringLiteral(value: String): Literal    = Literal.StringLiteral(value)
   def wholeNumberLiteral(value: Long): Literal = Literal.WholeNumberLiteral(value)
 
@@ -44,6 +46,7 @@ object Literal { module =>
       case CharLiteral(value)        => s"'$value'"
       case DecimalLiteral(value)     => s""""${value}M""""
       case FloatLiteral(value)       => value.toString()
+      case NumberLiteral(value)      => value.toString()
       case StringLiteral(value)      => s""""$value""""
       case WholeNumberLiteral(value) => value.toString()
     }
@@ -60,13 +63,14 @@ object Literal { module =>
     def char(value: Char): Literal       = CharLiteral(value)
     def decimal(value: BigDecimal): Literal =
       DecimalLiteral(value)
-    def decimal(value: BigDec): Literal = DecimalLiteral(BigDecimal(value))
-    def double(value: Double): Literal  = FloatLiteral(value)
-    def float(value: Double): Literal   = FloatLiteral(value)
-    def float(value: Float): Literal    = FloatLiteral(value.toDouble)
-    def int(value: Int): Literal        = WholeNumberLiteral(value.toLong)
-    def long(value: Long): Literal      = WholeNumberLiteral(value)
-    def string(value: String): Literal  = StringLiteral(value)
+    def decimal(value: BigDec): Literal  = DecimalLiteral(BigDecimal(value))
+    def double(value: Double): Literal   = FloatLiteral(value)
+    def float(value: Double): Literal    = FloatLiteral(value)
+    def float(value: Float): Literal     = FloatLiteral(value.toDouble)
+    def int(value: Int): Literal         = WholeNumberLiteral(value.toLong)
+    def long(value: Long): Literal       = WholeNumberLiteral(value)
+    def number(value: Rational): Literal = NumberLiteral(value)
+    def string(value: String): Literal   = StringLiteral(value)
     def wholeNumber(value: Long): Literal =
       WholeNumberLiteral(value)
 
@@ -74,6 +78,7 @@ object Literal { module =>
     sealed case class CharLiteral(value: Char)          extends Literal
     sealed case class DecimalLiteral(value: BigDecimal) extends Literal
     sealed case class FloatLiteral(value: Double)       extends Literal
+    sealed case class NumberLiteral(value: Rational)    extends Literal
     sealed case class StringLiteral(value: String)      extends Literal
     sealed case class WholeNumberLiteral(value: Long)   extends Literal
 
@@ -83,6 +88,7 @@ object Literal { module =>
         case CharLiteral(_)        => sdk.Char.charType
         case DecimalLiteral(_)     => sdk.Decimal.decimalType
         case FloatLiteral(_)       => sdk.Basics.floatType
+        case NumberLiteral(_)      => sdk.Number.numberType
         case StringLiteral(_)      => sdk.String.stringType
         case WholeNumberLiteral(_) => sdk.Basics.intType
       }

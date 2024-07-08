@@ -2,8 +2,13 @@ package org.finos.morphir.runtime.sdk
 
 import org.finos.morphir.runtime.ErrorUtils.tryOption
 import org.finos.morphir.runtime.RTValue.DivisionByZero
-import org.finos.morphir.runtime.internal.{DynamicNativeFunction1, DynamicNativeFunction2, DynamicNativeFunction3, NativeContext}
-import org.finos.morphir.runtime.{RTValue, SDKValue, RTValue as RT}
+import org.finos.morphir.runtime.internal.{
+  DynamicNativeFunction1,
+  DynamicNativeFunction2,
+  DynamicNativeFunction3,
+  NativeContext
+}
+import org.finos.morphir.runtime.{SDKValue, RTValue as RT}
 import org.finos.morphir.runtime.RTValue.Primitive.Number as RTNumber
 import org.finos.morphir.runtime.RTValue.Primitive.BigDecimal as RTDecimal
 import spire.math.{Rational, SafeLong}
@@ -57,13 +62,13 @@ object NumberSDK {
       val result = a.value >= b.value
       RT.Primitive.Boolean(result)
   }
-  
+
   // Arithmetic
 
   val add = DynamicNativeFunction2("add") {
     (_: NativeContext) => (a: RTNumber, b: RTNumber) =>
-        val result = a.value + b.value
-        RTNumber(result)
+      val result = a.value + b.value
+      RTNumber(result)
   }
 
   val subtract = DynamicNativeFunction2("subtract") {
@@ -73,10 +78,9 @@ object NumberSDK {
   }
 
   val multiply = DynamicNativeFunction2("multiply") {
-    (_: NativeContext) =>
-      (a: RTNumber, b: RTNumber) =>
-        val result = a.value * b.value
-        RTNumber(result)
+    (_: NativeContext) => (a: RTNumber, b: RTNumber) =>
+      val result = a.value * b.value
+      RTNumber(result)
   }
 
   val divide = DynamicNativeFunction2("divide") {
@@ -133,16 +137,16 @@ object NumberSDK {
 
   val simplify = DynamicNativeFunction1("simplify") {
     (_: NativeContext) => (num: RTNumber) =>
-          val numerator = num.value.numerator
-          val denominator = num.value.denominator
-          val (gcd, _) = numerator.factor.gcd(denominator.factor).head
-          gcd match {
-            case SafeLong.one => 
-              MaybeSDK.optionToMaybe(None)
-            case d => 
-              val result = Rational(numerator / d, denominator / d)
-              MaybeSDK.optionToMaybe(Some(RTNumber(result)))
-          }
+      val numerator   = num.value.numerator
+      val denominator = num.value.denominator
+      val (gcd, _)    = numerator.factor.gcd(denominator.factor).head
+      gcd match {
+        case SafeLong.one =>
+          MaybeSDK.optionToMaybe(None)
+        case d =>
+          val result = Rational(numerator / d, denominator / d)
+          MaybeSDK.optionToMaybe(Some(RTNumber(result)))
+      }
   }
 
   val isSimplified = DynamicNativeFunction1("isSimplified") {
@@ -150,10 +154,10 @@ object NumberSDK {
       val nFactors = num.value.numerator.factor
       val dFactors = num.value.denominator.factor
       val (gcd, _) = nFactors.gcd(dFactors).head
-      val result = gcd.isOne
+      val result   = gcd.isOne
       RT.Primitive.Boolean(result)
   }
-  
+
   // Constants
 
   val zero: SDKValue = SDKValue.SDKNativeValue(RTNumber(Rational.zero))

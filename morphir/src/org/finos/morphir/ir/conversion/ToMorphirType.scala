@@ -33,6 +33,7 @@ object ToMorphirType {
   implicit val byteUType: ToMorphirUType[Byte]                     = toUTypeConverter(sdk.Int.int8Type)
   implicit val shortUType: ToMorphirUType[Short]                   = toUTypeConverter(sdk.Int.int16Type)
   implicit val decimalUType: ToMorphirUType[scala.BigDecimal]      = toUTypeConverter(sdk.Decimal.decimalType)
+  implicit val numberUType: ToMorphirUType[spire.math.Number]      = toUTypeConverter(sdk.Number.numberType)
   implicit val localDateUType: ToMorphirUType[java.time.LocalDate] = toUTypeConverter(sdk.LocalDate.localDateType)
   implicit val localTimeUType: ToMorphirUType[java.time.LocalTime] = toUTypeConverter(sdk.LocalTime.localTimeType)
   implicit val monthUType: ToMorphirUType[java.time.Month]         = toUTypeConverter(sdk.LocalDate.monthType)
@@ -75,6 +76,7 @@ object ToMorphirType {
       case Concept.Int16                   => shortUType.as
       case Concept.Int32                   => intUType.as
       case Concept.Int64                   => intUType.as
+      case Concept.Number                  => numberUType.as
       case Concept.String                  => stringUType.as
       case Concept.LocalDate               => localDateUType.as
       case Concept.Month                   => monthUType.as

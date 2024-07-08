@@ -362,6 +362,11 @@ object Value extends internal.PatternModule {
     LiteralValue(literal.inferredType, literal)
   }
 
+  final def literal(value: spire.math.Rational): TypedValue = {
+    val literal = Lit.number(value)
+    LiteralValue(literal.inferredType, literal)
+  }
+
   // final def literal(value: java.math.BigInteger): TypedValue = {
   //   val literal = Lit.wholeNumber(value)
   //   LiteralValue(literal.inferredType, literal)
@@ -373,6 +378,11 @@ object Value extends internal.PatternModule {
   // }
 
   final def literalTyped[A](literal: Lit): TypedValue = literal.toTypedValue
+
+  final def number[A](attributes: A, value: spire.math.Rational)(implicit
+      @unused ev: IsNotAValue[A]
+  ): Value[Nothing, A] =
+    LiteralValue(attributes, Lit.number(value))
 
   final def patternMatch[TA, VA](
       attributes: VA,

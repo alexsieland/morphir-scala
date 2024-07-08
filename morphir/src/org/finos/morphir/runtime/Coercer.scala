@@ -25,7 +25,6 @@ object Coercer {
       def coerce(result: RTValue): RTValue.Primitive.BigDecimal = RTValue.coerceDecimal(result)
     }
 
-
   implicit val numberCoercer: Coercer[RTValue.Primitive.Number] =
     new Coercer[RTValue.Primitive.Number] {
       def coerce(result: RTValue): RTValue.Primitive.Number = RTValue.coerceNumber(result)

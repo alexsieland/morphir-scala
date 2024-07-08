@@ -20,7 +20,6 @@ import RationalImplicits.*
 
 import java.math.MathContext
 
-
 // TODO Integrate errors into reporting format
 // Represents a Morphir-Evaluator result. Typed on TypedValue
 // instead of a a Generic VA/TA since the latter is not necessary.
@@ -415,7 +414,7 @@ object RTValue {
           override def makeOrFail(value: Any): Numeric[spire.math.Rational] =
             value match {
               case v: spire.math.Rational => Primitive.Number(v)
-              case _                   => throw IllegalValue(s"The value $value is not a Rational")
+              case _                      => throw IllegalValue(s"The value $value is not a Rational")
             }
         }
       }
@@ -452,7 +451,7 @@ object RTValue {
       lazy val fractionalHelper = Some(implicitly[scala.Fractional[scala.BigDecimal]])
       lazy val integralHelper   = None
     }
-    
+
     case class Number(value: spire.math.Rational) extends Numeric[spire.math.Rational] {
       val numericType           = Numeric.Type.Number
       lazy val numericHelper    = implicitly[scala.Numeric[spire.math.Rational]]

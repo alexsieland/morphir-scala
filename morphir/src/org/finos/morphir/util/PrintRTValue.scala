@@ -87,10 +87,11 @@ class PrintRTValue(
           Tree.Literal(s""""${v.value}"""")
         case v: RT.Primitive.Char =>
           Tree.Literal(s"""'${v.value}'""")
-        case v: RT.Primitive[_] => Tree.Literal(v.value.toString)
-        case v: RT.LocalDate    => Tree.Literal(v.value.toString)
-        case v: RT.LocalTime    => Tree.Literal(v.value.toString)
-        case v: RT.Unit         => Tree.ofRT(v)(List())
+        case v: RT.Primitive[_]   => Tree.Literal(v.value.toString)
+        case v: RT.LocalDate      => Tree.Literal(v.value.toString)
+        case v: RT.LocalTime      => Tree.Literal(v.value.toString)
+        case v: RT.Unit           => Tree.ofRT(v)(List())
+        case v: RT.DivisionByZero => Tree.ofRT(v)(List())
 
         case v: RT.Tuple =>
           Tree.ofRT(v)(v.elements.map(treeify(_)))

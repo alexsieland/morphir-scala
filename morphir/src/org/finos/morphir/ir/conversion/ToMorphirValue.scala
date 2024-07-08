@@ -68,6 +68,7 @@ trait ToMorphirTypedValueInstancesLowPriority { self: ToMorphirValueFunctions =>
     case Data.Char(value)    => V.literal(value.morphirType, Lit.char(value))
     case Data.Float(value)   => V.literal(value)
     case Data.Decimal(value) => V.decimal(value.morphirType, value)
+    case Data.Number(value)  => V.literal(value)
     case Data.Integer(value) =>
       V.intTyped(value.toInt) // TODO: to be fixed when Integer is mapped to BigInt
     case Data.Int16(value: scala.Short) =>
