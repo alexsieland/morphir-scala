@@ -4,7 +4,7 @@ import org.finos.morphir.ir.Type
 import org.finos.morphir.naming._
 import org.finos.morphir.runtime.MorphirRuntimeError.UnexpectedType
 import org.finos.morphir.runtime.RTValue as RT
-import org.finos.morphir.runtime.internal.{DynamicNativeFunction1, DynamicNativeFunction2, DynamicNativeFunction3, DynamicNativeFunction4, DynamicNativeFunction5, NativeContext}
+import org.finos.morphir.runtime.internal.{DynamicNativeFunction1, DynamicNativeFunction2, DynamicNativeFunction3, DynamicNativeFunction4, DynamicNativeFunction5, DynamicNativeFunction6, NativeContext}
 
 /**
  * The "Result" SDK functions somewhat differently from ListSDK or others, because Result is not handled as a specific
@@ -94,11 +94,26 @@ object ResultSDK {
     (ctx: NativeContext) => (f: RT.Function, resultRaw1: RT.ConstructorResult, resultRaw2: RT.ConstructorResult, resultRaw3: RT.ConstructorResult, resultRaw4: RT.ConstructorResult) =>
     {
       val out: Either[RT, RT] = (resultToEither(resultRaw1), resultToEither(resultRaw2), resultToEither(resultRaw3), resultToEither(resultRaw4)) match {
-        case (Right(r1), Right(r2), Right(r3), Right(r4)) => Right(ctx.evaluator.handleApplyResult4(Type.variable("a"), f, r1, r2, r3))
+        case (Right(r1), Right(r2), Right(r3), Right(r4)) => Right(ctx.evaluator.handleApplyResult4(Type.variable("a"), f, r1, r2, r3, r4))
         case (e @ Left(_), _, _, _) => e
         case (_, e @ Left(_), _, _) => e
         case (_, _, e @ Left(_), _) => e
         case (_, _, _, e @ Left(_)) => e
+      }
+      eitherToResult(out)
+    }
+  }
+
+  val map5 = DynamicNativeFunction6("map5") {
+    (ctx: NativeContext) => (f: RT.Function, resultRaw1: RT.ConstructorResult, resultRaw2: RT.ConstructorResult, resultRaw3: RT.ConstructorResult, resultRaw4: RT.ConstructorResult, resultRaw5: RT.ConstructorResult) =>
+    {
+      val out: Either[RT, RT] = (resultToEither(resultRaw1), resultToEither(resultRaw2), resultToEither(resultRaw3), resultToEither(resultRaw4), resultToEither(resultRaw5)) match {
+        case (Right(r1), Right(r2), Right(r3), Right(r4), Right(r5)) => Right(ctx.evaluator.handleApplyResult5(Type.variable("a"), f, r1, r2, r3, r4, r5))
+        case (e @ Left(_), _, _, _, _) => e
+        case (_, e @ Left(_), _, _, _) => e
+        case (_, _, e @ Left(_), _, _) => e
+        case (_, _, _, e @ Left(_), _) => e
+        case (_, _, _, _, e @ Left(_)) => e
       }
       eitherToResult(out)
     }
