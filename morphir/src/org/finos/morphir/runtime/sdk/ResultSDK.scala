@@ -4,7 +4,7 @@ import org.finos.morphir.ir.Type
 import org.finos.morphir.naming._
 import org.finos.morphir.runtime.MorphirRuntimeError.UnexpectedType
 import org.finos.morphir.runtime.RTValue as RT
-import org.finos.morphir.runtime.internal.{DynamicNativeFunction1, DynamicNativeFunction2, NativeContext}
+import org.finos.morphir.runtime.internal.{DynamicNativeFunction1, DynamicNativeFunction2, DynamicNativeFunction3, DynamicNativeFunction4, DynamicNativeFunction5, NativeContext}
 
 /**
  * The "Result" SDK functions somewhat differently from ListSDK or others, because Result is not handled as a specific
@@ -63,6 +63,45 @@ object ResultSDK {
         val out = resultToEither(resultRaw).map(elem => ctx.evaluator.handleApplyResult(Type.variable("a"), f, elem))
         eitherToResult(out)
       }
+  }
+
+  val map2 = DynamicNativeFunction3("map2") {
+    (ctx: NativeContext) => (f: RT.Function, resultRaw1: RT.ConstructorResult, resultRaw2: RT.ConstructorResult) =>
+    {
+      val out: Either[RT, RT] = (resultToEither(resultRaw1), resultToEither(resultRaw2)) match {
+        case (Right(r1), Right(r2)) => Right(ctx.evaluator.handleApplyResult2(Type.variable("a"), f, r1, r2))
+        case (e @ Left(_), _) => e
+        case (_, e @ Left(_)) => e
+      }
+      eitherToResult(out)
+    }
+  }
+
+  val map3 = DynamicNativeFunction4("map3") {
+    (ctx: NativeContext) => (f: RT.Function, resultRaw1: RT.ConstructorResult, resultRaw2: RT.ConstructorResult, resultRaw3: RT.ConstructorResult) =>
+    {
+      val out: Either[RT, RT] = (resultToEither(resultRaw1), resultToEither(resultRaw2), resultToEither(resultRaw3)) match {
+        case (Right(r1), Right(r2), Right(r3)) => Right(ctx.evaluator.handleApplyResult3(Type.variable("a"), f, r1, r2, r3))
+        case (e @ Left(_), _, _) => e
+        case (_, e @ Left(_), _) => e
+        case (_, _, e @ Left(_)) => e
+      }
+      eitherToResult(out)
+    }
+  }
+
+  val map4 = DynamicNativeFunction5("map4") {
+    (ctx: NativeContext) => (f: RT.Function, resultRaw1: RT.ConstructorResult, resultRaw2: RT.ConstructorResult, resultRaw3: RT.ConstructorResult, resultRaw4: RT.ConstructorResult) =>
+    {
+      val out: Either[RT, RT] = (resultToEither(resultRaw1), resultToEither(resultRaw2), resultToEither(resultRaw3), resultToEither(resultRaw4)) match {
+        case (Right(r1), Right(r2), Right(r3), Right(r4)) => Right(ctx.evaluator.handleApplyResult4(Type.variable("a"), f, r1, r2, r3))
+        case (e @ Left(_), _, _, _) => e
+        case (_, e @ Left(_), _, _) => e
+        case (_, _, e @ Left(_), _) => e
+        case (_, _, _, e @ Left(_)) => e
+      }
+      eitherToResult(out)
+    }
   }
 
   val mapError = DynamicNativeFunction2("mapError") {
